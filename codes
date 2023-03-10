@@ -1,0 +1,33 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+function App() {
+  const [weather, setWeather] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get('https://api.openweathermap.org/data/2.5/weather?q=Istanbul&appid=<API_KEY>&units=metric')
+      .then(response => {
+        setWeather(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
+
+  return (
+    <div className="App">
+      <h1>İstanbul Hava Durumu</h1>
+      {weather ? (
+        <>
+          <p>{weather.main.temp} °C</p>
+          <p>{weather.weather[0].description}</p>
+        </>
+      ) : (
+        <p>Hava durumu yükleniyor...</p>
+      )}
+    </div>
+  );
+}
+
+export default App;
